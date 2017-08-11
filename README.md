@@ -10,20 +10,20 @@ using namespace std;
 
 struct Person
 {
-string* name;
+    string* name;
 };
 
 int main() {
 
-Person* p = new Person;
-p->name = new string("good boy");
+    Person* p = new Person;
+    p->name = new string("good boy");
 
-auto z = maybe(p)
-.With([](auto x) { return x->name; })
-.Do([](auto x) { cout << *x << endl; })
-;
+    auto z = maybe(p)
+        .With([](auto x) { return x->name; })
+        .Do([](auto x) { cout << *x << endl; })
+    ;
 
-return 0;
+    return 0;
 }
 ```
 
