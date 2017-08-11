@@ -45,12 +45,18 @@ public:
     T Read()
     {
         {
-            std::lock_guard<std::mutex> lck(mtx);
-            if (q.empty()) {
-
-                std::lock_guard<std::mutex> lckCheck(mtxCheck);
-            }
-
+			while (true)
+			{
+				std::lock_guard<std::mutex> lck(mtx);
+				if (q.empty())
+				{
+					std::lock_guard<std::mutex> lckCheck(mtxCheck);
+				}
+				else
+				{
+					break;
+				}
+			}
         }
 
         std::lock_guard<std::mutex> lck(mtx);

@@ -3,8 +3,6 @@ project(untitled)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(Boost_INCLUDE_DIR /Users/adrian/Downloads/boost_1_64_0)
-set(Boost_LIBRARY_DIR /Users/adrian/Downloads/boost_1_64_0/stage/lib)
 
 set(Boost_USE_STATIC_LIBS        ON) # only find static libs
 set(Boost_USE_MULTITHREADED      ON)
