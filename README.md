@@ -4,6 +4,7 @@
 # 代码示例
 - Promise
 
+```c++
 using namespace std;
 
 
@@ -24,6 +25,8 @@ auto z = maybe(p)
 
 return 0;
 }
+```
+
 
 # 写在最后
 如果喜欢请star，联系方式：
