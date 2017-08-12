@@ -26,18 +26,18 @@ enum class CoroutinueState
 };
 
 
-class  CoroutinueContext
+class  CoroutineContext
 {
 public:
     typedef void (*Fun)(void *arg);
 
-    struct CoroutinueInfo;
+    struct CoroutineInfo;
 
-    CoroutinueContext();
+    CoroutineContext();
 
-    ~CoroutinueContext();
+    ~CoroutineContext();
 
-    static void CoroutinueThread(CoroutinueContext *cc);
+    static void CoroutineCallback(CoroutineContext *cc);
 
     int  Create(Fun func, void *arg);
 
@@ -50,8 +50,8 @@ public:
 protected:
     ucontext_t main;
     int runningCoroutinue;
-    int coroutinueCount;
-    std::vector<CoroutinueInfo> coroutinues;
+    int coroutineCount;
+    std::vector<CoroutineInfo> coroutines;
 };
 
 

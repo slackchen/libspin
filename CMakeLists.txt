@@ -41,9 +41,9 @@ target_link_libraries(ChannelTest spin)
 add_executable(PromiseTest Tests/PromiseTest.cpp)
 target_link_libraries(PromiseTest spin)
 
-# Coroutinue
-add_executable(CoroutinueTest Tests/CoroutinueTest.cpp)
-target_link_libraries(CoroutinueTest spin)
+# Coroutine
+add_executable(CoroutineTest Tests/CoroutineTest.cpp)
+target_link_libraries(CoroutineTest spin)
 
 
 

@@ -7,7 +7,7 @@
 #define DEFAULT_STACK_SZIE (1024*128)
 #define MAX_ROUTINUE_SIZE   1024
 
-struct CoroutinueContext::CoroutinueInfo
+struct CoroutineContext::CoroutineInfo
 {
     ucontext_t ctx;
     Fun func;
@@ -16,36 +16,36 @@ struct CoroutinueContext::CoroutinueInfo
     char stack[DEFAULT_STACK_SZIE];
 };
 
-CoroutinueContext::CoroutinueContext()
-    :runningCoroutinue(-1), coroutinueCount(0)
-    ,coroutinues(MAX_ROUTINUE_SIZE)
+CoroutineContext::CoroutineContext()
+    :runningCoroutinue(-1), coroutineCount(0)
+    ,coroutines(MAX_ROUTINUE_SIZE)
 {
-    for (auto& c : coroutinues)
+    for (auto& c : coroutines)
         c.state = CoroutinueState::Free;
 }
 
-CoroutinueContext::~CoroutinueContext()
+CoroutineContext::~CoroutineContext()
 {
 }
 
-void CoroutinueContext::Resume(int id)
+void CoroutineContext::Resume(int id)
 {
-    if(id < 0 || id >= coroutinueCount){
+    if(id < 0 || id >= coroutineCount){
         return;
     }
 
-    CoroutinueInfo& ci = coroutinues[id];
+    CoroutineInfo& ci = coroutines[id];
 
     if (ci.state == CoroutinueState::Suspend) {
         swapcontext(&(main),&(ci.ctx));
     }
 }
 
-void CoroutinueContext::YieldReturn()
+void CoroutineContext::YieldReturn()
 {
     if(runningCoroutinue != -1 )
     {
-        CoroutinueInfo& ci = coroutinues[runningCoroutinue];
+        CoroutineInfo& ci = coroutines[runningCoroutinue];
         ci.state = CoroutinueState::Suspend;
         runningCoroutinue = -1;
 
@@ -53,12 +53,12 @@ void CoroutinueContext::YieldReturn()
     }
 }
 
-void CoroutinueContext::CoroutinueThread(CoroutinueContext *cc)
+void CoroutineContext::CoroutineCallback(CoroutineContext *cc)
 {
     int id = cc->runningCoroutinue;
 
     if(id != -1){
-        CoroutinueInfo& ci = cc->coroutinues[id];
+        CoroutineInfo& ci = cc->coroutines[id];
 
         ci.func(ci.arg);
 
@@ -70,24 +70,24 @@ void CoroutinueContext::CoroutinueThread(CoroutinueContext *cc)
     }
 }
 
-int CoroutinueContext::Create(Fun func, void *arg)
+int CoroutineContext::Create(Fun func, void *arg)
 {
     int id = 0;
 
-    for(id = 0; id < coroutinueCount; ++id )
+    for(id = 0; id < coroutineCount; ++id )
     {
-        if(coroutinues[id].state == CoroutinueState::Free)
+        if(coroutines[id].state == CoroutinueState::Free)
         {
             break;
         }
     }
 
-    if (id == coroutinueCount)
+    if (id == coroutineCount)
     {
-        coroutinueCount++;
+        coroutineCount++;
     }
 
-    CoroutinueInfo& ci = coroutinues[id];
+    CoroutineInfo& ci = coroutines[id];
 
     ci.state = CoroutinueState::Runnable;
     ci.func = func;
@@ -101,13 +101,13 @@ int CoroutinueContext::Create(Fun func, void *arg)
     ci.ctx.uc_link = &(main);
     runningCoroutinue = id;
 
-    makecontext(&(ci.ctx), (void (*)(void)) (CoroutinueThread), 1, this);
+    makecontext(&(ci.ctx), (void (*)(void)) (CoroutineCallback), 1, this);
     swapcontext(&(main), &(ci.ctx));
 
     return id;
 }
 
-int CoroutinueContext::Finished()
+int CoroutineContext::Finished()
 {
     if (runningCoroutinue != -1)
     {
@@ -115,8 +115,8 @@ int CoroutinueContext::Finished()
     }
     else
     {
-        for(int i = 0; i < coroutinueCount; ++i){
-            if(coroutinues[i].state != CoroutinueState::Free){
+        for(int i = 0; i < coroutineCount; ++i){
+            if(coroutines[i].state != CoroutinueState::Free){
                 return 0;
             }
         }

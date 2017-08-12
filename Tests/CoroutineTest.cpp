@@ -9,7 +9,7 @@ using namespace std;
 
 void test1(void* arg)
 {
-    CoroutinueContext& context = *(CoroutinueContext*)arg;
+    CoroutineContext& context = *(CoroutineContext*)arg;
 
     cout << "Coroutine 1 before yield" << endl;
 
@@ -21,7 +21,7 @@ void test1(void* arg)
 
 void test2(void* arg)
 {
-    CoroutinueContext& context = *(CoroutinueContext*)arg;
+    CoroutineContext& context = *(CoroutineContext*)arg;
 
     cout << "Coroutine 2 before yield" << endl;
 
@@ -33,7 +33,7 @@ void test2(void* arg)
 
 int main() {
 
-    CoroutinueContext context;
+    CoroutineContext context;
 
     int c1 = context.Create(test1, &context);
     int c2 = context.Create(test2, &context);
