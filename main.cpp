@@ -14,7 +14,7 @@ void test1(void* arg)
 
     cout << "Coroutine 1 before yield" << endl;
 
-    context.Yield();
+    context.YieldReturn();
 
     cout << "Coroutine 1 after yield" << endl;
 
@@ -26,7 +26,7 @@ void test2(void* arg)
 
     cout << "Coroutine 2 before yield" << endl;
 
-    context.Yield();
+    context.YieldReturn();
 
     cout << "Coroutine 2 after yield" << endl;
 

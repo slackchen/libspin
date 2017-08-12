@@ -9,7 +9,12 @@
 #define _XOPEN_SOURCE
 #endif
 
-#include <ucontext.h>
+#ifdef WIN32
+	#include "ucontext.h"
+#else
+	#include <ucontext.h>
+#endif
+
 #include <vector>
 
 enum class CoroutinueState
@@ -36,7 +41,7 @@ public:
 
     int  Create(Fun func, void *arg);
 
-    void Yield();
+    void YieldReturn();
 
     void Resume(int id);
 

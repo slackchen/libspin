@@ -12,7 +12,7 @@ struct CoroutinueContext::CoroutinueInfo
     ucontext_t ctx;
     Fun func;
     void *arg;
-    enum CoroutinueState state;
+    CoroutinueState state;
     char stack[DEFAULT_STACK_SZIE];
 };
 
@@ -41,7 +41,7 @@ void CoroutinueContext::Resume(int id)
     }
 }
 
-void CoroutinueContext::Yield()
+void CoroutinueContext::YieldReturn()
 {
     if(runningCoroutinue != -1 )
     {
@@ -65,6 +65,8 @@ void CoroutinueContext::CoroutinueThread(CoroutinueContext *cc)
         ci.state = CoroutinueState::Free;
 
         cc->runningCoroutinue = -1;
+
+		swapcontext(&(ci.ctx), &(cc->main));
     }
 }
 

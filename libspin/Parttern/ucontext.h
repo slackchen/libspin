@@ -31,8 +31,6 @@
 #define DUMMYARGS long dummy0, long dummy1, long dummy2, long dummy3, 
 #endif
 
-#define malloc(x)	_aligned_malloc(x,64)
-
 typedef struct __stack {
 	void *ss_sp;
 	size_t ss_size;
@@ -50,10 +48,18 @@ typedef struct __ucontext {
 	__sigset_t			uc_sigmask;
 } ucontext_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-int getcontext(ucontext_t *ucp);
-int setcontext(const ucontext_t *ucp);
-int makecontext(ucontext_t *, void (*)(), int, ...);
-int swapcontext(ucontext_t *, const ucontext_t *);
+	int getcontext(ucontext_t *ucp);
+	int setcontext(const ucontext_t *ucp);
+	int makecontext(ucontext_t *, void(*)(), int, ...);
+	int swapcontext(ucontext_t *, const ucontext_t *);
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif /* UCONTEXT_H */
