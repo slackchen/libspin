@@ -1,4 +1,6 @@
 # libspin
+![libspin_logo](documentation/icons/libspin.png)
+
 自旋库是基于现代c++设计模式而产生的，目的是为了帮助c++生产者在更高层次进行设计开发，从而提供更好的抽象服务，提高项目开发效率。
 
 # 代码示例
