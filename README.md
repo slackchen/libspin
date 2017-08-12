@@ -69,6 +69,6 @@ int main()
 ```
 
 
+
 # 写在最后
-如果喜欢请star，联系方式：
-email:whitespace@163.com
+如果喜欢请star，谢谢！
